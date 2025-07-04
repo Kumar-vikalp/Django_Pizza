@@ -2,23 +2,26 @@
   "version": 2,
   "builds": [
     {
-      "src": "project/wsgi.py",
+      "src": "quesMaker/wsgi.py",
       "use": "@vercel/python",
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.11" }
+    },
+    {
+      "src": "build_files.sh",
+      "use": "@vercel/static-build",
       "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.11"
+        "distDir": "staticfiles"
       }
     }
   ],
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/staticfiles/$1"
+      "dest": "/static/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "project/wsgi.py"
+      "dest": "quesMaker/wsgi.py"
     }
-  ],
-  "buildCommand": "python manage.py collectstatic --noinput"
+  ]
 }
